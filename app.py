@@ -2,6 +2,7 @@ from flask import Flask, jsonify, make_response
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
+import os
 
 app = Flask(__name__)
 
@@ -19,35 +20,31 @@ def scrape_news():
     try:
         base_url = 'https://www.bbc.com'
         tech_url = urljoin(base_url, '/news/technology')
-        
-        # Add timeout and headers to the request
+
         response = requests.get(tech_url, headers=HEADERS, timeout=10)
-        response.raise_for_status()  # Raise exception for bad status codes
+        response.raise_for_status()
 
         soup = BeautifulSoup(response.text, 'html.parser')
         articles = []
 
-        # More specific selector to get proper news items
         for item in soup.select('a.gs-c-promo-heading[href]'):
             title = item.get_text(strip=True)
             link = item['href']
-            
-            # Ensure absolute URLs
+
             if not link.startswith('http'):
                 link = urljoin(base_url, link)
-                
+
             articles.append({
                 'title': title,
                 'url': link
             })
 
-        # Create response with cache control headers
         resp = jsonify({
             'status': 'success',
             'count': len(articles),
             'articles': articles
         })
-        resp.headers['Cache-Control'] = 'public, max-age=300'  # 5 minute cache
+        resp.headers['Cache-Control'] = 'public, max-age=300'
         return resp
 
     except requests.exceptions.RequestException as e:
@@ -56,6 +53,7 @@ def scrape_news():
             'message': str(e)
         }), 500
 
+# ✅ Use this for Render deployment
 if __name__ == '__main__':
-    # For local development
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
