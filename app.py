@@ -1,7 +1,6 @@
 from flask import Flask, jsonify
 import requests
 from bs4 import BeautifulSoup
-import os
 
 app = Flask(__name__)
 
@@ -21,8 +20,4 @@ def scrape_news():
 
     return jsonify(articles)
 
-
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Pulls port from Render
-    print(f"Running on port {port}")          # Optional: debug message
-    app.run(host='0.0.0.0', port=port)        # Binds to 0.0.0.0
+# 🚫 Remove app.run block — Gunicorn will handle this
