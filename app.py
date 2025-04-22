@@ -21,7 +21,7 @@ def scrape_news():
 
     return jsonify(articles)
 
-# 🔥 THIS IS REQUIRED FOR RENDER
+
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))  # Pulls port from Render
     print(f"Running on port {port}")          # Optional: debug message
