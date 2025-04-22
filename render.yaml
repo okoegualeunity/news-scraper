@@ -1,1 +1,7 @@
-startCommand: "gunicorn app:app --bind 0.0.0.0:$PORT"
+services:
+  - type: web
+    name: news-scraper
+    env: python
+    plan: free
+    buildCommand: ""
+    startCommand: "gunicorn app:app --bind 0.0.0.0:$PORT"
