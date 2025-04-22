@@ -2,12 +2,11 @@ from flask import Flask, jsonify
 import requests
 from bs4 import BeautifulSoup
 
-# ✅ THIS MUST MATCH THE GUNICORN START COMMAND
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "✅ Flask app is live and running!"
+    return "✅ Flask app is running and responding!"
 
 @app.route('/scrape-news')
 def scrape_news():
