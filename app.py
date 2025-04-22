@@ -7,14 +7,10 @@ app = Flask(__name__)
 # ✅ Secure way to use the key (env variable preferred)
 NEWS_API_KEY = os.environ.get("NEWS_API_KEY") or "e95461392a8e4d5c96016282fc4d25d5"
 
-@app.route('/')
-def index():
-    return "✅ Flask app using NewsAPI is running!"
-
 @app.route('/scrape-news')
 def scrape_news():
     try:
-        url = f'https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey={NEWS_API_KEY}'
+        url = f'https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=e95461392a8e4d5c96016282fc4d25d5'
         response = requests.get(url)
         response.raise_for_status()
 
@@ -24,7 +20,8 @@ def scrape_news():
         for item in data.get('articles', []):
             articles.append({
                 'title': item['title'],
-                'url': item['url']
+                'url': item['url'],
+                'image': item['urlToImage']  # Optional: use in Android
             })
 
         return jsonify({
@@ -38,6 +35,7 @@ def scrape_news():
             'status': 'error',
             'message': str(e)
         }), 500
+
 
 # ✅ Port binding for Render
 if __name__ == '__main__':
