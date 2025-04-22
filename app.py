@@ -4,8 +4,8 @@ import os
 
 app = Flask(__name__)
 
-# Replace with your actual API key (you can also set it in Render environment variables)
-NEWS_API_KEY = os.environ.get("NEWS_API_KEY") or "YOUR_API_KEY_HERE"
+# ✅ Use environment variable if set, else fallback to your key (for testing only)
+NEWS_API_KEY = os.environ.get("NEWS_API_KEY") or "2144235fe6f141e0810be96db9fb3229"
 
 @app.route('/')
 def index():
@@ -36,7 +36,7 @@ def scrape_news():
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
-# Render port binding
+# ✅ Required for Render
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
