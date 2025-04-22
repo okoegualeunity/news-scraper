@@ -21,7 +21,8 @@ def scrape_news():
 
     return jsonify(articles)
 
-# ✅ This makes your app work on Render
+# 🔥 THIS IS REQUIRED FOR RENDER
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # default to 5000 locally
-    app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get("PORT", 5000))  # Pulls port from Render
+    print(f"Running on port {port}")          # Optional: debug message
+    app.run(host='0.0.0.0', port=port)        # Binds to 0.0.0.0
