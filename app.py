@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 import requests
 from bs4 import BeautifulSoup
+import os
 
 app = Flask(__name__)
 
@@ -19,3 +20,8 @@ def scrape_news():
         articles.append({'title': title, 'url': link})
 
     return jsonify(articles)
+
+# ✅ This makes your app work on Render
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 5000))  # default to 5000 locally
+    app.run(host='0.0.0.0', port=port)
