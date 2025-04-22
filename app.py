@@ -14,7 +14,7 @@ def index():
 @app.route('/scrape-news')
 def scrape_news():
     try:
-        url = f'https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey={NEWS_API_KEY}'
+        url = f'https://newsapi.org/v2/top-headlines?country=gb&category=technology&apiKey={NEWS_API_KEY}'
         response = requests.get(url)
         response.raise_for_status()
 
@@ -35,6 +35,7 @@ def scrape_news():
 
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
 
 # ✅ Required for Render
 if __name__ == '__main__':
